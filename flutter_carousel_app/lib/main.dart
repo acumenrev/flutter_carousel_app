@@ -64,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Scaffold(
       backgroundColor: Colors.black,
       body: new Column(
-
         children: <Widget>[
           // status bar
           createStatusBar(),
@@ -73,8 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // bottom bar
           createBottomBar()
         ],
-
-
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -89,21 +86,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget createCards() {
     return new Expanded(
         child: new CardClipper(
-            cards: listSampleCards,
-            onScrolling : (double scrollPercent) {
-              setState(() {
-                this._scrollPercent = scrollPercent;
-              });
-            },
-        )
-    );
+      cards: listSampleCards,
+      onScrolling: (double scrollPercent) {
+        setState(() {
+          this._scrollPercent = scrollPercent;
+        });
+      },
+    ));
   }
 
   Widget createBottomBar() {
     return new BottomBar(
-      cardsLength : listSampleCards.length ,
-      scrollPercent: _scrollPercent
-    );
+        cardsLength: listSampleCards.length, scrollPercent: _scrollPercent);
   }
 }
 
@@ -111,10 +105,7 @@ class BottomBar extends StatelessWidget {
   final int cardsLength;
   final double scrollPercent;
 
-  BottomBar({
-    this.cardsLength = 0,
-    this.scrollPercent = 0.0
-  });
+  BottomBar({this.cardsLength = 0, this.scrollPercent = 0.0});
 
   @override
   Widget build(BuildContext context) {
@@ -124,30 +115,19 @@ class BottomBar extends StatelessWidget {
         children: <Widget>[
           new Expanded(
               child: new Center(
-                child: new Icon(
-                  Icons.settings,
-                  color: Colors.white
-                ),
-              )
-          ),
+            child: new Icon(Icons.settings, color: Colors.white),
+          )),
           new Expanded(
               child: new Container(
-                width: double.infinity,
-                height: 5.0,
-                child: new ScrollIndicator(
-                  itemsCount: cardsLength,
-                  scrollPercent: scrollPercent
-                ),
-              )
-          ),
+            width: double.infinity,
+            height: 5.0,
+            child: new ScrollIndicator(
+                itemsCount: cardsLength, scrollPercent: scrollPercent),
+          )),
           new Expanded(
               child: new Center(
-                child: new Icon(
-                    Icons.add,
-                    color: Colors.white
-                ),
-              )
-          )
+            child: new Icon(Icons.add, color: Colors.white),
+          ))
         ],
       ),
     );
@@ -158,21 +138,14 @@ class ScrollIndicator extends StatelessWidget {
   final int itemsCount;
   final double scrollPercent;
 
-  ScrollIndicator({
-    this.itemsCount = 0,
-    this.scrollPercent = 0.0
-  });
+  ScrollIndicator({this.itemsCount = 0, this.scrollPercent = 0.0});
 
   @override
   Widget build(BuildContext context) {
     return new CustomPaint(
       painter: new ScrollIndicatorPainter(
-          itemsCount: itemsCount,
-          scrollPercent: scrollPercent
-      ),
-      child: new Container(
-
-      ),
+          itemsCount: itemsCount, scrollPercent: scrollPercent),
+      child: new Container(),
     );
   }
 }
@@ -183,46 +156,45 @@ class ScrollIndicatorPainter extends CustomPainter {
   final Paint trackPaint;
   final Paint thumbPaint;
 
-  ScrollIndicatorPainter({
-    this.itemsCount = 0,
-    this.scrollPercent = 0.0
-  }) :  trackPaint = new Paint()
+  ScrollIndicatorPainter({this.itemsCount = 0, this.scrollPercent = 0.0})
+      : trackPaint = new Paint()
           ..color = Colors.grey
           ..style = PaintingStyle.fill,
         thumbPaint = new Paint()
           ..color = Colors.white
           ..style = PaintingStyle.fill;
 
-
   @override
   void paint(Canvas canvas, Size size) {
     // Draw track
-    canvas.drawRRect(new RRect.fromRectAndCorners(new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
-        topLeft: new Radius.circular(3.0),
-    topRight: new Radius.circular(3.0),
-    bottomLeft: new Radius.circular(3.0),
-    bottomRight: new Radius.circular(3.0)), trackPaint);
-
+    canvas.drawRRect(
+        new RRect.fromRectAndCorners(
+            new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
+            topLeft: new Radius.circular(3.0),
+            topRight: new Radius.circular(3.0),
+            bottomLeft: new Radius.circular(3.0),
+            bottomRight: new Radius.circular(3.0)),
+        trackPaint);
 
     // Draw thumb
-    final thumbWidth = size.width/itemsCount;
+    final thumbWidth = size.width / itemsCount;
     final thumbLeft = size.width * scrollPercent;
 
-    canvas.drawRRect(new RRect.fromRectAndCorners(new Rect.fromLTWH(thumbLeft, 0.0, thumbWidth, size.height),
-        topLeft: new Radius.circular(3.0),
-        topRight: new Radius.circular(3.0),
-        bottomLeft: new Radius.circular(3.0),
-        bottomRight: new Radius.circular(3.0)), thumbPaint);
+    canvas.drawRRect(
+        new RRect.fromRectAndCorners(
+            new Rect.fromLTWH(thumbLeft, 0.0, thumbWidth, size.height),
+            topLeft: new Radius.circular(3.0),
+            topRight: new Radius.circular(3.0),
+            bottomLeft: new Radius.circular(3.0),
+            bottomRight: new Radius.circular(3.0)),
+        thumbPaint);
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
-
-
 }
-
 
 class CardClipper extends StatefulWidget {
   final List<CardViewModel> cards;
@@ -234,7 +206,8 @@ class CardClipper extends StatefulWidget {
   _CardClipperState createState() => _CardClipperState();
 }
 
-class _CardClipperState extends State<CardClipper> with TickerProviderStateMixin {
+class _CardClipperState extends State<CardClipper>
+    with TickerProviderStateMixin {
   double scrollPercent = 0.0;
   Offset startDrag;
   double startDragPercentScroll;
@@ -245,13 +218,11 @@ class _CardClipperState extends State<CardClipper> with TickerProviderStateMixin
   List<Widget> _buildCards() {
     final cardCounts = widget.cards.length;
 
-
     int index = -1;
     return widget.cards.map((CardViewModel viewModel) {
       ++index;
       return _buildCard(viewModel, index, cardCounts, scrollPercent);
     }).toList();
-
   }
 
   @override
@@ -261,18 +232,17 @@ class _CardClipperState extends State<CardClipper> with TickerProviderStateMixin
     finishScrollController = new AnimationController(
       duration: const Duration(milliseconds: 150),
       vsync: this,
-
     );
     finishScrollController.addListener(() {
       setState(() {
-        scrollPercent = lerpDouble(finishScrollStart, finishScrollEnd, finishScrollController.value);
+        scrollPercent = lerpDouble(
+            finishScrollStart, finishScrollEnd, finishScrollController.value);
         if (widget.onScrolling != null) {
           widget.onScrolling(scrollPercent);
         }
       });
     });
   }
-
 
   @override
   void dispose() {
@@ -288,10 +258,12 @@ class _CardClipperState extends State<CardClipper> with TickerProviderStateMixin
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
     final currDrag = details.globalPosition;
     final dragDistance = currDrag.dx - startDrag.dx;
-    final singleCardDragPercent = dragDistance/context.size.width;
+    final singleCardDragPercent = dragDistance / context.size.width;
 
     setState(() {
-      scrollPercent = (startDragPercentScroll + (-singleCardDragPercent/widget.cards.length)).clamp(0.0, 1.0 - (1/widget.cards.length));
+      scrollPercent = (startDragPercentScroll +
+              (-singleCardDragPercent / widget.cards.length))
+          .clamp(0.0, 1.0 - (1 / widget.cards.length));
       if (widget.onScrolling != null) {
         widget.onScrolling(scrollPercent);
       }
@@ -299,12 +271,10 @@ class _CardClipperState extends State<CardClipper> with TickerProviderStateMixin
   }
 
   void _onHorizontalDragEnd(DragEndDetails details) {
-
-
     finishScrollStart = scrollPercent;
-    finishScrollEnd = (scrollPercent * widget.cards.length).round() / widget.cards.length;
+    finishScrollEnd =
+        (scrollPercent * widget.cards.length).round() / widget.cards.length;
     finishScrollController.forward(from: 0.0);
-
 
     setState(() {
       startDrag = null;
@@ -324,34 +294,26 @@ class _CardClipperState extends State<CardClipper> with TickerProviderStateMixin
       ),
     );
   }
-  
-  Widget _buildCard(CardViewModel viewModel ,int cardIndex, int cardCount, double scrollPercent) {
-    final cardScrollPercent = scrollPercent/(1/cardCount);
+
+  Widget _buildCard(CardViewModel viewModel, int cardIndex, int cardCount,
+      double scrollPercent) {
+    final cardScrollPercent = scrollPercent / (1 / cardCount);
     final parallax = scrollPercent - (cardIndex / cardCount);
 
     return new FractionalTranslation(
-        translation: new Offset(cardIndex - cardScrollPercent, 0.0),
-        child: new Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: new Card(
-            viewModel: viewModel,
-            parallaxPercent: parallax
-          ),
-        ),
+      translation: new Offset(cardIndex - cardScrollPercent, 0.0),
+      child: new Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: new Card(viewModel: viewModel, parallaxPercent: parallax),
+      ),
     );
   }
 }
 
-
-
-
 class Card extends StatelessWidget {
   final CardViewModel viewModel;
   final double parallaxPercent;
-  Card({
-    this.viewModel,
-    this.parallaxPercent = 0.0
-});
+  Card({this.viewModel, this.parallaxPercent = 0.0});
 
   @override
   Widget build(BuildContext context) {
@@ -361,30 +323,28 @@ class Card extends StatelessWidget {
       children: <Widget>[
         // background
         new ClipRRect(
-             borderRadius: new BorderRadius.circular(10.0) ,
+            borderRadius: new BorderRadius.circular(10.0),
             child: new FractionalTranslation(
-                 translation: new Offset(parallaxPercent * 2.0, 0.0) ,
+                translation: new Offset(parallaxPercent * 2.0, 0.0),
                 child: new OverflowBox(
-                   maxWidth:  double.infinity,
-                    child: new Image.asset(this.viewModel.backgroundAssetPath, fit: BoxFit.cover)
-                )
-            )
-        ),
+                    maxWidth: double.infinity,
+                    child: new Image.asset(this.viewModel.backgroundAssetPath,
+                        fit: BoxFit.cover)))),
 
         // content
         new Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             new Padding(
-              padding: const EdgeInsets.only(top: 30.0, left: 20.0, right: 20.0),
+              padding:
+                  const EdgeInsets.only(top: 30.0, left: 20.0, right: 20.0),
               child: new Text(
                 this.viewModel.address.toUpperCase(),
                 style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2.0
-                ),
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 2.0),
               ),
             ),
             new Expanded(child: new Container()),
@@ -395,20 +355,18 @@ class Card extends StatelessWidget {
                 new Text(
                   '${this.viewModel.minHeightInFeet} - ${this.viewModel.maxHeightInFeet}',
                   style: new TextStyle(
-                    color: Colors.white,
-                    fontSize: 140.0,
-                    letterSpacing: -5.0
-                  ),
+                      color: Colors.white,
+                      fontSize: 140.0,
+                      letterSpacing: -5.0),
                 ),
                 new Padding(
                   padding: const EdgeInsets.only(left: 10.0, top: 30.0),
                   child: new Text(
                     'FT',
                     style: new TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold
-                    ),
+                        color: Colors.white,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold),
                   ),
                 )
               ],
@@ -425,10 +383,9 @@ class Card extends StatelessWidget {
                   child: new Text(
                     '${this.viewModel.tempInDegrees}',
                     style: new TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0
-                    ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0),
                   ),
                 ),
               ],
@@ -438,15 +395,12 @@ class Card extends StatelessWidget {
               padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
               child: new Container(
                 decoration: new BoxDecoration(
-                  borderRadius: new BorderRadius.circular(30.0),
-                  border: new Border.all(
-                    color: Colors.white,
-                    width: 1.5
-                  ),
-                  color: Colors.black.withOpacity(0.3)
-                ),
+                    borderRadius: new BorderRadius.circular(30.0),
+                    border: new Border.all(color: Colors.white, width: 1.5),
+                    color: Colors.black.withOpacity(0.3)),
                 child: new Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 20.0),
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
@@ -454,24 +408,23 @@ class Card extends StatelessWidget {
                       new Text(
                         this.viewModel.weatherType,
                         style: new TextStyle(
-                          fontSize: 15.0,
+                            fontSize: 15.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      new Padding(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: new Icon(
+                          Icons.wb_cloudy,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold
                         ),
-                      ),
-                      new Padding(padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: new Icon(
-                        Icons.wb_cloudy,
-                        color:  Colors.white,
-                      ),
                       ),
                       new Text(
                         '${this.viewModel.windSpeedMph}mph',
                         style: new TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0
-                        ),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0),
                       )
                     ],
                   ),
